@@ -1,0 +1,27 @@
+body {
+    
+}
+
+h1 {
+    font-family: 'Amatic SC', cursive;
+    display: block;
+    padding: 30px;
+    font-size: 80px;
+    text-align: center;
+}
+
+h2 {
+    font-family: 'Amatic SC', cursive;
+    display: block;
+    padding: 40px;
+    text-align: center;
+}
+.col {
+    overflow: visible;
+
+}
+
+.container {
+    align: center;
+    width: 800px;
+}
