@@ -9,108 +9,114 @@
         
 // declared variables:
 
-var wordlist = ["stalwart", "brazen", "handiwork", "sacrosanct", "standard", "reciprocity", "reprobate", "asphyxiate", "tribunal", "adrenalin"];
 var wins = 0;
 var losses = 0;
+var wordlist = ["stalwart", "brazen", "handiwork", "sacrosanct", "standard", "reciprocity", "reprobate", "asphyxiate", "tribunal", "adrenalin"];
 var lettersUsed = [];
 var wordBlanks = [];
 var guessRem = 0;
-var guessIndex = 0;
-var wordChoice = wordlist [Math.floor(Math.random() * wordlist.length)];
-    console.log ("wordlist length is " + wordlist.length);
-    console.log (wordChoice);
+var wrongGuess = 0;
+var keyIndex = 0;
+var wordChoice = wordlist[Math.floor(Math.random() * wordlist.length)];
+    console.log("wordlist length is " + wordlist.length);
+    console.log(wordChoice);
 
+
+    $("#game").html("<div id='row'><h3 id='wins'>Wins: " + wins + "</h3</div><div id='row'><h3 id='losses'>Losses: " + losses + "</h3></div><div><h3 id='letGuess'>Letters guessed: " + lettersUsed +  "</h3></div><div id='row'><h3 id='guessRem'>Guesses remaining: " + guessRem + "</h3></div><div id='row'><h3 id='wrongGuess'>Wrong guesses: " + wrongGuess + "</h3></div>");
 
  // this is to 'push' blanks into the array wordBlanks - to later be replaced by 
 // the event.key
 
     for (i = 0; i < wordChoice.length; i++) {
-        wordBlanks.push(" _ ");
+        wordBlanks.push(" _");
+        $("#word").html("<h1>" + wordBlanks.join(" ") + "</h1>")
     }
-    console.log (wordBlanks)
+    console.dir(wordBlanks);
+    
 
-// setting keystart to begin game:
+        // setting keystart to begin game and take in first guess:
 
 document.onkeypress = function(event) {
+        console.log(event.key);
+
+        // to push key entered into letters used array:
+
+lettersUsed.push(event.key);
+        console.log(lettersUsed);
+        $("#letGuess").html("<div><h3>Letters guessed: " + lettersUsed +  "</h3></div>");
+
+        // returns index number of key pressed - in random word:
+
+keyIndex = wordChoice.indexOf(event.key);
+        console.log (keyIndex);
+
+    while (keyIndex != -1) {
+            // wordBlanks.push(guessIndex);
     
-        console.log (event.key);
+        // This will splice INTO wordBlanks the event.key in its
+        // index place - replacing the dashes
+    
+            wordBlanks.splice(keyIndex, 1, (event.key));
+            keyIndex = wordChoice.indexOf(event.key, keyIndex +1);
+        }
+        console.log(wordBlanks);
+        $("#word").html("<h1>" + wordBlanks.join("") + "</h1>")
 
-   lettersUsed.push(event.key);
-        console.log (lettersUsed);
+        
+    if (wordChoice.indexOf(event.key) >= 0) {
+        console.log("ahhhhh");
+        // var audio = new Audio('#');
+        // audio.play();
 
-    guessIndex = wordChoice.indexOf(event.key);
-    console.log (guessIndex);
-
-
-
-    while (guessIndex != -1) {
-        // wordBlanks.push(guessIndex);
-
-    // This will splice INTO wordBlanks the event.key in its
-    // index place - replacing the dashes
-
-        wordBlanks.splice(guessIndex, 1, (event.key));
-        guessIndex = wordChoice.indexOf(event.key, guessIndex +1);
-    }
-    console.log(wordBlanks);
-
-
-
-
-    if (guessIndex == -1) {
-        console.log("scream!");
-        var audio = new Audio('assets/audio/wscream.mp3');
-            audio.play();
     }
     else {
-        console.log("ahhhhh");
+        console.log("scream!");
+        wrongGuess++
+        console.log(wrongGuess);
+        $("#wrongGuess").html("<div id='row'><h3>Wrong guesses: " + wrongGuess + "</h3></div>");
+        // var audio = new Audio('assets/audio/wscream.mp3');
+        // audio.play();
+    
     }
+    
+    if (wordBlanks.join("") === wordChoice) {
+                console.log(wordBlanks);
+                wins++;
 
+                $("#wins").html("<div id='row'><h3>Wins: " + wins + "</h3</div>");
+                reset();
 
-
-    // var n = str.indexOf("welcome");
-
-
-     if (lettersUsed.length >= 9) {
-         console.log("Game over!");
-        alert ("Game Over!");
-     }
+                alert("YOU WIN! Play again, why don't you?")
     
 }
+    
+    else if (wrongGuess > 9) {
+        console.log("YOU LOSE!");
+        // var audio = new Audio('#');
+        // audio.play();
+        losses++;
+        console.log(losses);
+        reset();
+    } 
+
+
+  
+function reset() {
+    lettersUsed = [];
+    wordBlanks = [];
+    guessRem = 0;
+    wrongGuess = 0;
+    guessIndex = 0;
+    keyIndex = 0;
+    wordChoice = wordlist[Math.floor(Math.random() * wordlist.length)];
+    console.log("game reset -- new word = " + wordChoice);
+    $("#game").html("<div id='row'><h3 id='wins'>Wins: " + wins + "</h3</div><div id='row'><h3 id='losses'>Losses: " + losses + "</h3></div><div><h3 id='letGuess'>Letters guessed: " + lettersUsed +  "</h3></div><div id='row'><h3 id='guessRem'>Guesses remaining: " + guessRem + "</h3></div><div id='row'><h3 id='wrongGuess'>Wrong guesses: " + wrongGuess + "</h3></div>");
+
+        
+
+   
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-// <!-- need to finish HTML below -->
-// var html =
-//      "<p><h2></h2></p>" +
-//     "<p><h2>wins: " + wins + "</h2></p>" +
-//     "<p><h2>losses: " + guess + "</h2></p>" +
-//     "<p><h2>letters guessed: " + guess[] + "</p>" +
-//     "<p><h2>Guesses remaining: " + guessRem + "</p>" +
-
-
-
-// // Set the inner HTML contents of the #game div to our html string
-// document.querySelector("#game").innerHTML = html;
-
-
-//     i++
-// }
-// while (i < 10);
-
-// return;
-// }
-
-// }
-
+}
+}

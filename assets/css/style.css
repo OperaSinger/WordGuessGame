@@ -1,20 +1,33 @@
-body {
-    
+#game {
+    font-family: 'Amatic SC', cursive;
+    text-align: center;
+}
+
+#word {
+    font-family: 'Amatic SC', cursive, monospace;
+    text-align: center;
 }
 
 h1 {
     font-family: 'Amatic SC', cursive;
     display: block;
-    padding: 30px;
-    font-size: 80px;
-    text-align: center;
+    padding: 20px;
+    font-size: 60px;
+    text-align: left;
 }
 
 h2 {
     font-family: 'Amatic SC', cursive;
     display: block;
-    padding: 40px;
-    text-align: center;
+    padding: 10px;
+    text-align: left;
+}
+
+h3 {
+    font-family: 'Amatic SC', cursive;
+    display: block;
+    padding: 10px;
+    text-align: left;
 }
 .col {
     overflow: visible;
@@ -22,6 +35,6 @@ h2 {
 }
 
 .container {
-    align: center;
+    text-align: center;
     width: 800px;
 }
